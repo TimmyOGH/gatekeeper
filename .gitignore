@@ -15,8 +15,6 @@ env/
 # Environment variables
 .env
 *.env
-secret_key.env
-
 
 # Flask
 instance/

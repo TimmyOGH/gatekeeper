@@ -2,8 +2,13 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine, text
+from dotenv import load_dotenv
 
 db = SQLAlchemy()
+
+load_dotenv()
+
+print(os.environ.get("SECRET_KEY"))
 
 def gatekeeper():
     # Create Database
@@ -11,7 +16,7 @@ def gatekeeper():
     
     # Create Flask App Instance
     app = Flask(__name__)
-    
+
     # Secret Key
     app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
 
