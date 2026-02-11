@@ -1,0 +1,27 @@
+# Mac
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.db
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# Environment variables
+.env
+
+# Flask
+instance/
+.webassets-cache
+
+# Logs
+*.log
+
+# Node (NPM Tailwind)
+node_modules/
+dist/
