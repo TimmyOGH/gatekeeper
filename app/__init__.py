@@ -8,8 +8,6 @@ db = SQLAlchemy()
 
 load_dotenv()
 
-print(os.environ.get("SECRET_KEY"))
-
 def gatekeeper():
     # Create Database
     create_database()
