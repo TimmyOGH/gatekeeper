@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine, text
@@ -10,9 +11,9 @@ def gatekeeper():
     
     # Create Flask App Instance
     app = Flask(__name__)
-
+    
     # Secret Key
-    app.config['SECRET_KEY'] = '2191f996ef400909d66f4dfce34033e13c6541e8fcef7ccb82dbb9fefdb28151'
+    app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
 
     # Use PyMySQL Driver
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:4HISGlory@localhost/gatekeeper'
