@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Vertical Fade-In Animation */
+@keyframes ver-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Horizontal Fade-In Animation */
+@keyframes hor-fade-in {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Apply Animation to Register Card */
+.reg-card-fade-in {
+  animation: ver-fade-in 0.9s ease-out forwards;
+}
+
+/* Apply Animation to GateKeeper */
+.gate-keeper-fade-in {
+  animation: hor-fade-in 0.9s ease-out forwards;
+}
+
+/* Apply Animation to Login Card */
+.lgn-card-fade-in {
+  animation: ver-fade-in 0.9s ease-out forwards;
+}

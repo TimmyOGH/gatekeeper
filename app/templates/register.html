@@ -1,0 +1,148 @@
+{% extends "base.html" %} {% block title %}Register{% endblock %} {% block
+content %}
+<!-- Container -->
+<div class="flex items-center justify-center h-screen bg-gray-200">
+  <!-- Flash Messages -->
+  {% with msgs = get_flashed_messages(category_filter=['register_error']) %} {%
+  if msgs %}
+  <div id="reg-fail" class="fixed top-4 right-4 z-50">
+    <div
+      class="relative flex items-center p-4 rounded-lg shadow-lg max-w-md bg-red-100 border-l-4 border-red-500 text-red-700"
+    >
+      <span class="flex-1">{{ msgs[0] }}</span>
+      <button onclick="this.parentElement.remove()" class="ml-4 p-1">
+        <span class="text-black text-xl font-bold" aria-hidden="true"
+          >&times;</span
+        >
+      </button>
+    </div>
+  </div>
+  {% endif %} {% endwith %}
+  <script>
+    // Auto Dismiss After 3 secs
+    setTimeout(() => {
+      const msg = document.getElementById("reg-fail");
+      if (msg) {
+        msg.style.opacity = "0";
+        msg.style.transition = "opacity 0.9s";
+        setTimeout(() => msg.remove(), 500);
+      }
+    }, 3000);
+  </script>
+  <!-- Card -->
+  <div class="bg-white p-3 sm:pr-0 mx-6 rounded-xl opacity-0 reg-card-fade-in">
+    <!-- Flex Container -->
+    <div class="flex flex-col sm:flex-row rounded-l-lg overflow-hidden">
+      <!-- Image -->
+      <img
+        class="hidden sm:block rounded-l-lg h-[500px] transform transition-all hover:scale-105 duration-300"
+        src="{{ url_for('static', filename='images/side-pic.png') }}"
+        alt="side-pic"
+      />
+      <!-- Content -->
+      <div class="flex flex-col px-8 py-4 w-72 md:w-96 duration-300">
+        <p class="text-center mb-6 font-bold text-xl">Register</p>
+        <!-- Register Form -->
+        <form
+          id="reg-form"
+          method="POST"
+          action="/register"
+          class="relative flex flex-col"
+          autocomplete="off"
+        >
+          <!-- Name -->
+          <label class="mb-2 text-sm"
+            >Full Name<span
+              id="name-error-msg"
+              class="hidden text-sm text-[#e74c3c] absolute right-0"
+              >*invalid name*</span
+            ></label
+          >
+          <input
+            id="name-input"
+            name="full name"
+            type="text"
+            placeholder="Name..."
+            maxlength="50"
+            class="border-b-2 border-gray-200 mb-4 focus:outline-none"
+          />
+          <!-- Email -->
+          <label class="mb-2 text-sm"
+            >Email<span
+              id="reg-email-error-msg"
+              class="hidden text-sm text-[#e74c3c] absolute right-0"
+              >*invalid email*</span
+            ></label
+          >
+          <input
+            id="reg-email-input"
+            name="email"
+            type="text"
+            placeholder="Email address..."
+            maxlength="50"
+            class="border-b-2 border-gray-200 mb-4 focus:outline-none"
+          />
+          <!-- Password -->
+          <label class="mb-2 text-sm"
+            >Password<span
+              id="reg-weak-pw-error-msg"
+              class="hidden text-sm text-[#e74c3c] absolute right-0"
+              >*weak password*</span
+            ></label
+          >
+          <input
+            id="reg-pw-input"
+            name="password"
+            type="password"
+            placeholder="Enter a strong password"
+            maxlength="50"
+            class="border-b-2 border-gray-200 mb-4 focus:outline-none"
+          />
+          <!-- Password Strength Feedback -->
+          <div
+            class="h-[12px] w-full max-w-[50%] mb-4 bg-gray-200 rounded-lg overflow-hidden"
+          >
+            <div
+              class="h-full w-0 rounded-lg duration-300"
+              id="strength-fill"
+            ></div>
+          </div>
+          <!-- Repeat PW -->
+          <label class="mb-2 text-sm"
+            >Repeat Password<span
+              id="rep-pw-error-msg"
+              class="hidden text-sm text-[#e74c3c] absolute right-0"
+              >*not matching*</span
+            ></label
+          >
+          <input
+            id="rep-pw-input"
+            name="repeat password"
+            type="password"
+            placeholder="Repeat..."
+            maxlength="50"
+            class="border-b-2 border-gray-200 mb-8 focus:outline-none"
+          />
+          <!-- Submit -->
+          <button
+            type="submit"
+            class="mb-4 border-2 border-black hover:border-gray-200 rounded-lg bg-black text-white p-2 hover:bg-white hover:text-black duration-300"
+          >
+            Submit
+          </button>
+          <!-- Login -->
+          <label class="text-center"
+            ><a href="/login" class="text-sm cursor-pointer">Login →</a></label
+          >
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block scripts %}
+<!-- Link register.js -->
+<script
+  src="{{ url_for('static', filename='js/register.js') }}"
+  type="text/javascript"
+></script>
+{% endblock %}

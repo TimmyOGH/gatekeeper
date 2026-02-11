@@ -1,0 +1,17 @@
+{
+  "name": "gatekeeper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx tailwindcss -i ./app/static/css/input.css -o ./app/static/css/style.css",
+    "watch": "npx tailwindcss -i ./app/static/css/input.css -o ./app/static/css/style.css --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}

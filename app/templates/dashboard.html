@@ -1,0 +1,249 @@
+{% extends "base.html" %} {% block title %}GateKeeper{% endblock %} {% block
+content %}
+<!-- Container -->
+<div class="flex h-screen">
+  <!-- Flash Messages -->
+  {% with msgs = get_flashed_messages(category_filter=['login_success']) %} {%
+  if msgs %}
+  <div id="lgn-success" class="fixed top-4 right-4 z-50">
+    <div
+      class="relative flex items-center p-4 rounded-lg shadow-lg max-w-md bg-green-100 border-l-4 border-green-500 text-green-700"
+    >
+      <span class="flex-1">{{ msgs[0] }}</span>
+      <button onclick="this.parentElement.remove()" class="ml-4 p-1">
+        <span class="text-black text-xl font-bold" aria-hidden="true"
+          >&times;</span
+        >
+      </button>
+    </div>
+  </div>
+  {% endif %} {% endwith %}
+  <script>
+    // Auto Dismiss After 3 secs
+    setTimeout(() => {
+      const msg = document.getElementById("lgn-success");
+      if (msg) {
+        msg.style.opacity = "0";
+        msg.style.transition = "opacity 0.9s";
+        setTimeout(() => msg.remove(), 500);
+      }
+    }, 3000);
+  </script>
+  <!-- Sidebar -->
+  <div class="relative flex min-w-[225px] p-4 bg-white text-black">
+    <!-- Sidebar Inner Container -->
+    <div class="flex flex-col w-full h-full">
+      <!-- Current User Name -->
+      <div class="flex items-center text-md mt-3 mb-9 uppercase">
+        <!-- User Icon -->
+        <img
+          src="{{ url_for('static', filename='images/user-icon.png') }}"
+          alt="user-icon"
+          class="w-7 h-7 mr-2 border-2 border-black p-1 rounded-md"
+        />
+        <!-- Full Name -->
+        {{ user.name }}
+      </div>
+      <div class="space-y-2">
+        <!-- Dashboard Tab -->
+        <button
+          id="dash-tab"
+          class="tab-button w-full flex items-center p-3 rounded-lg bg-blue-100 text-blue-700 border-l-4 border-blue-500 transition-all duration-200"
+        >
+          <!-- Dashboard Icon -->
+          <svg
+            class="w-5 h-5 mr-3"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"
+            ></path>
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M8 7V3m8 4V3m-9 8h10"
+            ></path>
+          </svg>
+          Dashboard
+        </button>
+        <!-- Security Tab -->
+        <button
+          id="secu-tab"
+          class="tab-button w-full flex items-center p-3 rounded-lg text-gray-600 hover:bg-gray-100 transition-all duration-200"
+        >
+          <!-- Security Icon -->
+          <svg
+            class="w-5 h-5 mr-3"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+            ></path>
+          </svg>
+          Security
+        </button>
+      </div>
+      <!-- Settings Icon -->
+      <div class="absolute bottom-[14%] left-[43%] cursor-pointer">
+        <svg
+          class="w-7 h-7"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+          ></path>
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+          ></path>
+        </svg>
+      </div>
+      <!-- Log Out Icon -->
+      <div class="text-md absolute bottom-[4%] left-[31%]">
+        <a
+          href="{{ url_for('auth.logout') }}"
+          class="px-3 py-2 text-white bg-black rounded-lg border-2 border-black hover:border-gray-200 hover:bg-white hover:text-black duration-300 inline-block text-center"
+        >
+          Log Out
+        </a>
+      </div>
+    </div>
+  </div>
+  <!-- Main Content Area -->
+  <div class="flex flex-col w-full bg-gray-200 p-6 px-10">
+    <!-- Title & Date -->
+    <div class="flex items-center justify-between mb-8">
+      <p id="main-content-title" class="text-3xl font-bold">Dashboard</p>
+      <p>{{ date }}</p>
+    </div>
+    <!-- List of Systems & Resources -->
+    <div
+      id="main-content-content-dashboard"
+      class="bg-white rounded-lg p-4 pb-10"
+    >
+      <p class="text-xl font-bold p-3 pb-0 mb-6">Systems & Resources</p>
+      <div class="px-4">
+        <ol class="space-y-5 list-decimal list-inside">
+          <li
+            class="p-3 cursor-pointer rounded-lg border-b border-gray-300 hover:bg-gray-100 duration-300"
+          >
+            HR Portal
+          </li>
+          <li
+            class="p-3 cursor-pointer rounded-lg border-b border-gray-300 hover:bg-gray-100 duration-300"
+          >
+            File Management System
+          </li>
+          <li
+            class="p-3 cursor-pointer rounded-lg border-b border-gray-300 hover:bg-gray-100 duration-300"
+          >
+            Finance System
+          </li>
+          <li
+            class="p-3 cursor-pointer rounded-lg border-b border-gray-300 hover:bg-gray-100 duration-300"
+          >
+            Project Management Tool
+          </li>
+          <li
+            class="p-3 cursor-pointer rounded-lg border-b border-gray-300 hover:bg-gray-100 duration-300"
+          >
+            Internal Messaging/Email System
+          </li>
+          <li
+            class="p-3 cursor-pointer rounded-lg border-b border-gray-300 hover:bg-gray-100 duration-300"
+          >
+            Inventory / Asset Management System
+          </li>
+          <li
+            class="p-3 cursor-pointer rounded-lg border-b border-gray-300 hover:bg-gray-100 duration-300"
+          >
+            IT Support / Helpdesk System
+          </li>
+          <li
+            class="p-3 cursor-pointer rounded-lg border-b border-gray-300 hover:bg-gray-100 duration-300"
+          >
+            Developer Tools
+          </li>
+        </ol>
+      </div>
+    </div>
+    <div
+      id="main-content-content-security"
+      class="hidden bg-white rounded-lg p-4 pb-10"
+    >
+      <p class="text-xl font-bold p-3 pb-0 mb-6">Token Information</p>
+      <div class="px-4 space-y-4">
+        <!-- Full Token -->
+        <div>
+          <p class="font-semibold mb-1">Full Token:</p>
+          <p
+            class="bg-gray-100 p-3 mb-4 rounded-lg text-sm break-all whitespace-pre-wrap overflow-hidden"
+          >
+            {{ token }}
+          </p>
+        </div>
+        <!-- Signature -->
+        <div>
+          <p class="font-semibold mb-1">Signature:</p>
+          <p
+            class="bg-gray-100 p-3 mb-5 rounded-lg text-sm break-all whitespace-pre-wrap overflow-hidden"
+          >
+            {{ signature }}
+          </p>
+        </div>
+        <!-- Other Token Info in a Grid -->
+        <div class="grid grid-cols-2 gap-5">
+          <div>
+            <p class="font-semibold mb-1">Token Type:</p>
+            <p class="bg-gray-100 p-2 rounded-lg">{{ token_type }}</p>
+          </div>
+          <div>
+            <p class="font-semibold mb-1">Algorithm:</p>
+            <p class="bg-gray-100 p-2 rounded-lg">{{ algorithm }}</p>
+          </div>
+          <div>
+            <p class="font-semibold mb-1">User ID:</p>
+            <p class="bg-gray-100 p-2 rounded-lg">{{ user.uid }}</p>
+          </div>
+          <div>
+            <p class="font-semibold mb-1">Name:</p>
+            <p class="bg-gray-100 p-2 rounded-lg">{{ user.name }}</p>
+          </div>
+          <div>
+            <p class="font-semibold mb-1">Issued At:</p>
+            <p class="bg-gray-100 p-2 rounded-lg">{{ issued_at }}</p>
+          </div>
+          <div>
+            <p class="font-semibold mb-1">Expires At:</p>
+            <p class="bg-gray-100 p-2 rounded-lg">{{ expires_at }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block scripts %}
+<!-- Link register.js -->
+<script
+  src="{{ url_for('static', filename='js/dashboard.js') }}"
+  type="text/javascript"
+></script>
+{% endblock %}
